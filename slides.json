@@ -1,0 +1,248 @@
+[
+  {
+    "title": "Bayesian missing data",
+    "body": "<p>Regression when both outcomes and predictors are incomplete</p><div class=\"math\">\\[Y\\mid X,\\theta\\sim p(y\\mid x,\\theta)\\]</div>",
+    "kicker": "LECTURE NOTES",
+    "note": ""
+  },
+  {
+    "title": "The basic problem",
+    "body": "<p>We want inference for the conditional relationship</p><div class=\"math\">\\[p(Y\\mid X,\\theta)\\]</div><p>but both <em>Y</em> and <em>X</em> may be partly unobserved.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Observed and missing components",
+    "body": "<div class=\"math\">\\[Y=(Y_{\\mathrm{obs}},Y_{\\mathrm{mis}})\\]</div><div class=\"math\">\\[X=(X_{\\mathrm{obs}},X_{\\mathrm{mis}})\\]</div><p>Let <em>R</em> encode the observed/missing pattern (1 = observed).</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Three probability models",
+    "body": "<div class=\"math\">\\[\\underbrace{p(Y\\mid X,\\theta)}_{\\text{outcome}}\\quad \\underbrace{p(X\\mid\\phi)}_{\\text{covariates}}\\]</div><div class=\"math\">\\[\\underbrace{p(R\\mid Y,X,\\psi)}_{\\text{missingness}}\\]</div>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Complete-data factorization",
+    "body": "<div class=\"math\">\\[p(Y,X,R,\\theta,\\phi,\\psi)=p(R\\mid Y,X,\\psi)\\,p(Y\\mid X,\\theta)\\,p(X\\mid\\phi)\\,p(\\theta,\\phi,\\psi)\\]</div><p>A selection-model factorization; prior independence is optional.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Observed-data likelihood",
+    "body": "<div class=\"math\">\\[L(\\theta,\\phi,\\psi)=\\iint p(R\\mid Y,X,\\psi)\\,p(Y\\mid X,\\theta)\\,p(X\\mid\\phi)\\,dY_{\\mathrm{mis}}\\,dX_{\\mathrm{mis}}\\]</div><p>Integrate only the missing components; sum for discrete variables.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "MCAR",
+    "body": "<div class=\"math\">\\[p(R\\mid Y,X,\\psi)=p(R\\mid\\psi)\\]</div><p>Missingness is independent of observed and unobserved values.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "MAR",
+    "body": "<div class=\"math\">\\[p(R\\mid Y,X,\\psi)=p(R\\mid Y_{\\mathrm{obs}},X_{\\mathrm{obs}},\\psi)\\]</div><p>For each realized pattern, the probability of that pattern does not vary with missing values.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "MNAR",
+    "body": "<div class=\"math\">\\[p(R\\mid Y,X,\\psi)\\text{ depends on }(Y_{\\mathrm{mis}},X_{\\mathrm{mis}})\\]</div><p>Missingness remains dependent on unobserved values after conditioning on what is observed.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Ignorability",
+    "body": "<p>Under MAR, parameter distinctness, and an appropriate factorized prior:</p><div class=\"math\">\\[p(\\theta,\\phi\\mid D_{\\mathrm{obs}},R)\\propto p(\\theta,\\phi)\\iint p(Y\\mid X,\\theta)p(X\\mid\\phi)\\,dY_{\\mathrm{mis}}dX_{\\mathrm{mis}}\\]</div><p>Ignoring the missingness model does <em>not</em> mean ignoring missing predictors.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "A simple regression",
+    "body": "<div class=\"math\">\\[Y_i\\mid X_i,\\theta\\sim N(\\alpha+\\beta X_i,\\sigma^2)\\]</div><div class=\"math\">\\[X_i\\mid\\phi\\sim N(\\mu_x,\\tau^2)\\]</div>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Missing outcome, observed predictor",
+    "body": "<div class=\"math\">\\[\\int p(y_i\\mid x_i,\\theta)\\,dy_i=1\\]</div><p>Under independent sampling and ignorability, this subject adds no direct likelihood information about the regression parameters.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Observed outcome, missing predictor",
+    "body": "<div class=\"math\">\\[p(y_i\\mid\\theta,\\phi)=\\int p(y_i\\mid x_i,\\theta)p(x_i\\mid\\phi)\\,dx_i\\]</div><p>A model for the predictor distribution is now needed.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Gaussian marginalization",
+    "body": "<div class=\"math\">\\[Y_i\\mid\\theta,\\phi\\sim N(\\alpha+\\beta\\mu_x,\\;\\sigma^2+\\beta^2\\tau^2)\\]</div><p>Even with missing <em>X</em>, the observed <em>Y</em> can inform the regression parameters.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Four missingness patterns",
+    "body": "<table><tr><th>Y</th><th>X</th><th>Contribution</th></tr><tr><td>observed</td><td>observed</td><td>\\(p(y\\mid x,\theta)p(x\\mid\\phi)\\)</td></tr><tr><td>missing</td><td>observed</td><td>\\(p(x\\mid\\phi)\\)</td></tr><tr><td>observed</td><td>missing</td><td>\\(\\int p(y\\mid x,\theta)p(x\\mid\\phi)dx\\)</td></tr><tr><td>missing</td><td>missing</td><td>\\(1\\)</td></tr></table><p><small>Independent subjects, scalar X, ignorable missingness.</small></p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Data augmentation",
+    "body": "<div class=\"math\">\\[p(\\theta,\\phi,Y_{\\mathrm{mis}},X_{\\mathrm{mis}}\\mid D_{\\mathrm{obs}})\\propto p(Y\\mid X,\\theta)p(X\\mid\\phi)p(\\theta,\\phi)\\]</div><p>Sample missing values and parameters jointly, rather than evaluating the integral directly.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Missing predictors use observed outcomes",
+    "body": "<div class=\"math\">\\[p(x_i\\mid y_i,\\theta,\\phi)\\propto p(y_i\\mid x_i,\\theta)p(x_i\\mid\\phi)\\]</div><p>Imputation of predictors should generally condition on the outcome.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Gaussian conditional imputation",
+    "body": "<div class=\"math\">\\[X_i\\mid y_i,\\theta,\\phi\\sim N(m_i,v_i)\\]</div><div class=\"math\">\\[v_i=\\left(\\tau^{-2}+\\beta^2/\\sigma^2\\right)^{-1}\\]</div><div class=\"math\">\\[m_i=v_i\\left(\\mu_x/\\tau^2+\\beta(y_i-\\alpha)/\\sigma^2\\right)\\]</div>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Prediction with a missing predictor",
+    "body": "<div class=\"math\">\\[p(y_*\\mid D_{\\mathrm{obs}})=\\iint p(y_*\\mid x_*,\\theta)p(x_*\\mid\\phi)p(\\theta,\\phi\\mid D_{\\mathrm{obs}})\\,dx_*d\\theta d\\phi\\]</div><p>Integrate over both parameter and predictor uncertainty.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Multiple imputation",
+    "body": "<div class=\"bigstatement\">Not one completed dataset.<br><strong>Many plausible completed datasets.</strong></div><div class=\"math\">\\[D_{\\mathrm{mis}}^{(m)}\\sim p(D_{\\mathrm{mis}}\\mid D_{\\mathrm{obs}})\\]</div>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Posterior predictive imputations",
+    "body": "<div class=\"math\">\\[p(D_{\\mathrm{mis}}\\mid D_{\\mathrm{obs}})=\\int p(D_{\\mathrm{mis}}\\mid D_{\\mathrm{obs}},\\eta)p(\\eta\\mid D_{\\mathrm{obs}})\\,d\\eta\\]</div><p>Imputations propagate both missing-value uncertainty and parameter uncertainty.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "MI workflow",
+    "body": "<div class=\"steps\"><div><b>1</b><span>Draw missing values</span></div><div><b>2</b><span>Analyze each completed dataset</span></div><div><b>3</b><span>Pool estimates and uncertainty</span></div></div><div class=\"math\">\\[D^{(m)}=(D_{\\mathrm{obs}},D_{\\mathrm{mis}}^{(m)}),\\quad m=1,\\ldots,M\\]</div>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Rubin\u2019s rules: point estimate",
+    "body": "<div class=\"math\">\\[\\bar Q=\\frac{1}{M}\\sum_{m=1}^M\\hat Q_m\\]</div><p>Each completed dataset produces an estimate \\(\\hat Q_m\\) and estimated variance \\(U_m\\).</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Rubin\u2019s rules: uncertainty",
+    "body": "<div class=\"math\">\\[\\bar U=\\frac1M\\sum_{m=1}^M U_m\\]</div><div class=\"math\">\\[B=\\frac1{M-1}\\sum_{m=1}^M(\\hat Q_m-\\bar Q)^2\\]</div><div class=\"math\">\\[\\boxed{T=\\bar U+(1+M^{-1})B}\\]</div>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Why two variance components?",
+    "body": "<div class=\"math\">\\[\\operatorname{Var}(\\theta\\mid D_{\\mathrm{obs}})=E[\\operatorname{Var}(\\theta\\mid D)] +\\operatorname{Var}[E(\\theta\\mid D)]\\]</div><p>Within-imputation uncertainty + between-imputation uncertainty. Expectations are over missing data given observed data.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "MI and full Bayes",
+    "body": "<div class=\"two\"><div><h3>Multiple imputation</h3><p>Complete datasets</p><p>Fit analysis model repeatedly</p><p>Combine estimates</p></div><div><h3>Full Bayesian analysis</h3><p>Joint posterior draws</p><p>Integrate over missing data</p><p>Summarize posterior directly</p></div></div><p><small>Rubin\u2019s rules approximate posterior moments under suitable conditions; they are not universally exact.</small></p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "MICE / chained equations",
+    "body": "<div class=\"math\">\\[p(Z_1\\mid Z_{-1}),\\;p(Z_2\\mid Z_{-2}),\\;\\ldots,\\;p(Z_k\\mid Z_{-k})\\]</div><p>Cycle through variable-specific conditional imputation models. These conditionals need not define a compatible joint distribution.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Congeniality matters",
+    "body": "<div class=\"math\">\\[E(Y\\mid X)=\\alpha+\\beta_1X_1+\\beta_2X_2+\\beta_3X_1X_2\\]</div><p>An imputation model that omits interactions or nonlinearities can distort the substantive regression analysis.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Why sensitivity analysis?",
+    "body": "<div class=\"bigstatement\">MAR is usually <strong>not testable</strong> from observed data alone.</div><p>Vary assumptions about missing values and assess how conclusions change.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "What is identified?",
+    "body": "<div class=\"math\">\\[p(D_{\\mathrm{obs}},R)=\\int p(D_{\\mathrm{obs}},D_{\\mathrm{mis}},R)\\,dD_{\\mathrm{mis}}\\]</div><p>Different MNAR models may induce the same observed-data distribution yet imply different missing-data distributions.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Pattern-mixture sensitivity",
+    "body": "<div class=\"math\">\\[p(Y,X\\mid R)=p(Y,X\\mid R;\\delta)\\]</div><p>Specify how the distribution of missing values differs across missingness patterns. \\(\\delta\\) indexes departures from MAR.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Delta adjustment for missing Y",
+    "body": "<div class=\"math\">\\[Y_{\\mathrm{mis}}^{(m,\\delta)}=Y_{\\mathrm{mis}}^{(m,\\mathrm{MAR})}+\\delta\\]</div><p>For continuous outcomes, shift MAR imputations by a scientifically plausible amount. \\(\\delta=0\\) is the reference scenario.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Sensitivity for missing X",
+    "body": "<div class=\"math\">\\[X_{\\mathrm{mis}}^{(m,\\delta_x)}=X_{\\mathrm{mis}}^{(m,\\mathrm{MAR})}+\\delta_x\\]</div><p>Refit \\(Y\\mid X\\) across a grid of \\(\\delta_x\\). For binary predictors, shift an appropriate latent scale or log odds instead.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Selection-model sensitivity",
+    "body": "<div class=\"math\">\\[\\operatorname{logit}P(R_{Yi}=1\\mid Y_i,X_i)=a+b^\\top X_i+\\gamma Y_i\\]</div><p>The parameter \\(\\gamma\\) describes dependence on potentially unobserved outcomes. Fix or vary \\(\\gamma\\) over plausible values.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Joint missingness in Y and X",
+    "body": "<div class=\"math\">\\[p(R_Y,R_X\\mid Y,X,\\psi)\\]</div><p>Sensitivity parameters may govern dependence on missing outcomes, missing predictors, and their interaction.</p><p>One-at-a-time analyses are useful, but joint scenarios may be necessary.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "A tipping-point analysis",
+    "body": "<div class=\"math\">\\[\\delta\\longmapsto\\hat\\beta(\\delta)\\quad\\text{and}\\quad CI(\\delta)\\]</div><p>At what departure from MAR does the sign, practical magnitude, or inferential conclusion change?</p><div class=\"tipline\"><span>MAR</span><span>moderate departure</span><span>strong departure</span></div>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Sensitivity is not a prior-free solution",
+    "body": "<div class=\"math\">\\[p(\\theta,\\delta\\mid D_{\\mathrm{obs}})\\propto p(D_{\\mathrm{obs}}\\mid\\theta,\\delta)p(\\theta,\\delta)\\]</div><p>If \\(\\delta\\) is weakly identified, its posterior can be driven by its prior. Report assumptions transparently.</p>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "A practical sensitivity workflow",
+    "body": "<div class=\"steps\"><div><b>1</b><span>Fit a defensible MAR reference model</span></div><div><b>2</b><span>Choose interpretable MNAR parameters</span></div><div><b>3</b><span>Repeat MI / posterior inference over a grid</span></div><div><b>4</b><span>Plot effects and uncertainty; locate tipping points</span></div></div>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "What to report",
+    "body": "<ul><li>Missingness patterns and observed-data diagnostics</li><li>Imputation / covariate models and substantive model</li><li>Sensitivity parameter definitions and plausible ranges</li><li>Effect estimates and uncertainty across scenarios</li><li>Which conclusions are robust\u2014and which are not</li></ul>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "Takeaways",
+    "body": "<ul><li>Missing X usually requires modeling its distribution</li><li>Under MAR, the missingness mechanism can be ignorable\u2014not the missing data</li><li>MI propagates uncertainty through repeated completed-data analyses</li><li>MNAR sensitivity analysis probes assumptions the observed data cannot settle</li></ul>",
+    "kicker": "BAYESIAN MISSING DATA",
+    "note": ""
+  },
+  {
+    "title": "References",
+    "body": "<div class=\"references\">Rubin (1987), <em>Multiple Imputation for Nonresponse in Surveys</em>.<br>Little &amp; Rubin (2019), <em>Statistical Analysis with Missing Data</em>, 3rd ed.<br>van Buuren (2018), <em>Flexible Imputation of Missing Data</em>, 2nd ed.<br>Carpenter &amp; Kenward (2013), <em>Multiple Imputation and its Application</em>.<br>Daniels &amp; Hogan (2008), <em>Missing Data in Longitudinal Studies</em>.</div>",
+    "kicker": "FURTHER READING",
+    "note": ""
+  }
+]
