@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bayesian Missing Data | Y given X</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/theme/white.css">
+<style>
+:root { --r-background-color:#fff; --r-main-color:#171717; --r-heading-color:#111; --r-main-font:Arial,Helvetica,sans-serif; --r-heading-font:Arial,Helvetica,sans-serif; --r-heading-font-weight:600; --r-main-font-size:30px; --r-heading-text-transform:none; --r-heading-letter-spacing:-.035em; --r-link-color:#333; }
+.reveal .slides section {text-align:left; padding:0 28px; box-sizing:border-box;}
+.reveal h1 {font-size:2.35em; line-height:1.08; margin-bottom:.45em;}
+.reveal h2 {font-size:1.52em; margin-bottom:.65em;}
+.reveal h3 {font-size:1.05em;}
+.reveal p, .reveal li {line-height:1.42;}
+.reveal ul {margin-left:.9em;}
+.reveal li {margin:.22em 0;}
+.reveal .eq {text-align:center; margin:1.05em auto; font-size:1.02em;}
+.reveal .small {font-size:.70em; color:#555;}
+.reveal .tiny {font-size:.58em; color:#555;}
+.reveal .kicker {font-size:.56em; text-transform:uppercase; letter-spacing:.18em; color:#777; margin-bottom:1.7em;}
+.reveal .muted {color:#777;}
+.reveal .rule {height:1px; background:#ddd; margin:1em 0;}
+.reveal .columns {display:grid; grid-template-columns:1fr 1fr; gap:2em; align-items:center;}
+.reveal .three {display:grid; grid-template-columns:repeat(3,1fr); gap:1.1em;}
+.reveal .panel {border-top:2px solid #222; padding-top:.65em;}
+.reveal .panel p {font-size:.8em;}
+.reveal table {font-size:.72em; border-collapse:collapse; width:100%;}
+.reveal th,.reveal td {border-bottom:1px solid #ddd; padding:.6em .45em; text-align:left;}
+.reveal th {font-weight:600;}
+.reveal .footer {position:absolute; bottom:0; left:28px; font-size:.48em; color:#aaa;}
+.reveal .em {font-weight:600;}
+.reveal .accent {border-left:3px solid #222; padding-left:.7em;}
+.reveal .progress {height:2px; color:#222;}
+.reveal .slide-number {font-size:14px; color:#888; right:24px; bottom:18px;}
+@media(max-width:700px){.reveal .columns,.reveal .three{grid-template-columns:1fr;gap:.4em}.reveal .slides section{padding:0 12px}}
+</style>
+</head>
+<body><div class="reveal"><div class="slides">
+<section><div class="kicker">Statistical inference / lecture notes</div><h1>Bayesian<br>missing data</h1><p>Regression with missing outcomes and predictors</p><p class="small">A probabilistic perspective on \(Y\mid X\)</p></section>
+<section><h2>The central idea</h2><p>Missing observations are <strong>unknown random variables</strong>.</p><div class="eq">\[p(\theta\mid D_{\mathrm{obs}})=\int p(\theta,D_{\mathrm{mis}}\mid D_{\mathrm{obs}})\,dD_{\mathrm{mis}}\]</div><p class="small">Inference integrates over what we did not observe.</p></section>
+<section><h2>Start with a conditional model</h2><div class="eq">\[Y_i\mid X_i,\theta\sim p(y_i\mid x_i,\theta)\]</div><p>What changes when <em>both</em> \(Y\) and \(X\) can be missing?</p><div class="rule"></div><p class="small">We generally need to move from a conditional model to a joint model.</p></section>
+<section><h2>Notation</h2><div class="eq">\[Y=(Y_{\mathrm{obs}},Y_{\mathrm{mis}})\qquad X=(X_{\mathrm{obs}},X_{\mathrm{mis}})\]</div><p>Let \(R\) record the observation pattern:</p><div class="eq">\[R_{Yi}=1\ \text{if }Y_i\text{ observed},\qquad R_{Xij}=1\ \text{if }X_{ij}\text{ observed}.\]</div><p class="small">A zero indicates missingness.</p></section>
+<section><h2>Three sets of parameters</h2><div class="three"><div class="panel"><h3>\(\theta\)</h3><p>Outcome model</p><p>\(p(Y\mid X,\theta)\)</p></div><div class="panel"><h3>\(\phi\)</h3><p>Covariate model</p><p>\(p(X\mid\phi)\)</p></div><div class="panel"><h3>\(\psi\)</h3><p>Missingness model</p><p>\(p(R\mid Y,X,\psi)\)</p></div></div></section>
+<section><h2>Complete-data model</h2><div class="eq">\[\begin{aligned}p(Y,X,R,\theta,\phi,\psi)={}&p(R\mid Y,X,\psi)\\&\times p(Y\mid X,\theta)\\&\times p(X\mid\phi)\\&\times p(\theta,\phi,\psi).\end{aligned}\]</div><p class="small">Selection-model factorization; prior independence is not required.</p></section>
+<section><h2>Observed-data likelihood</h2><div class="eq">\[\begin{aligned}L(\theta,\phi,\psi)={}&\iint p(R\mid Y,X,\psi)\\&\quad p(Y\mid X,\theta)p(X\mid\phi)\\&\quad dY_{\mathrm{mis}}\,dX_{\mathrm{mis}}.\end{aligned}\]</div><p class="small">Hold observed components fixed; integrate or sum over missing components.</p></section>
+<section><h2>Three missingness mechanisms</h2><div class="three"><div class="panel"><h3>MCAR</h3><p>\(p(R\mid Y,X,\psi)=p(R\mid\psi)\)</p></div><div class="panel"><h3>MAR</h3><p>\(p(R\mid Y,X,\psi)=p(R\mid Y_{\mathrm{obs}},X_{\mathrm{obs}},\psi)\)</p></div><div class="panel"><h3>MNAR</h3><p>Missingness still depends on unobserved values.</p></div></div><p class="tiny">MAR equality is pattern-specific and must hold across possible missing values consistent with the observed data.</p></section>
+<section><h2>Ignorability</h2><p>Under MAR and distinct missingness parameters / suitable prior factorization:</p><div class="eq">\[\begin{aligned}p(\theta,\phi\mid D_{\mathrm{obs}})\propto{}&p(\theta,\phi)\\&\times\iint p(Y\mid X,\theta)p(X\mid\phi)\\&\qquad dY_{\mathrm{mis}}\,dX_{\mathrm{mis}}.\end{aligned}\]</div><p class="small">We may omit the missingness mechanism—not the missing predictors.</p></section>
+<section><h2>A Gaussian example</h2><div class="eq">\[Y_i\mid X_i,\alpha,\beta,\sigma^2\sim N(\alpha+\beta X_i,\sigma^2)\]</div><div class="eq">\[X_i\mid\mu_x,\tau^2\sim N(\mu_x,\tau^2)\]</div><p class="small">Assume independent subjects and ignorable missingness.</p></section>
+<section><h2>Missing \(Y\), observed \(X\)</h2><div class="eq">\[\int p(y_i\mid x_i,\theta)\,dy_i=1\]</div><p>The missing outcome contributes no direct information about \(\theta\) in this independent-subject model.</p><p class="small">Its observed \(X_i\) can still inform \(\phi\).</p></section>
+<section><h2>Observed \(Y\), missing \(X\)</h2><div class="eq">\[p(y_i\mid\theta,\phi)=\int p(y_i\mid x_i,\theta)p(x_i\mid\phi)\,dx_i\]</div><p class="accent">A model for \(X\) is now essential to this likelihood.</p></section>
+<section><h2>The marginal outcome distribution</h2><p>For the Gaussian model:</p><div class="eq">\[Y_i\sim N\!\left(\alpha+\beta\mu_x,\;\sigma^2+\beta^2\tau^2\right)\]</div><p>Even with missing \(X_i\), observed \(Y_i\) contributes information about model parameters.</p></section>
+<section><h2>Four observation patterns</h2><table><thead><tr><th>Outcome</th><th>Predictor</th><th>Likelihood contribution</th></tr></thead><tbody><tr><td>Observed</td><td>Observed</td><td>\(p(y_i\mid x_i,\theta)p(x_i\mid\phi)\)</td></tr><tr><td>Missing</td><td>Observed</td><td>\(p(x_i\mid\phi)\)</td></tr><tr><td>Observed</td><td>Missing</td><td>\(\int p(y_i\mid x_i,\theta)p(x_i\mid\phi)dx_i\)</td></tr><tr><td>Missing</td><td>Missing</td><td>\(1\)</td></tr></tbody></table><p class="tiny">Scalar predictor; independent subjects; ignorable missingness; no other observed variables.</p></section>
+<section><h2>Data augmentation</h2><div class="eq">\[\begin{aligned}&p(\theta,\phi,Y_{\mathrm{mis}},X_{\mathrm{mis}}\mid D_{\mathrm{obs}})\\&\qquad\propto p(Y\mid X,\theta)p(X\mid\phi)p(\theta,\phi).\end{aligned}\]</div><p>Instead of integrating out missing values, sample them as latent variables.</p></section>
+<section><h2>A sampling cycle</h2><div class="three"><div class="panel"><h3>01</h3><p>Draw missing \(X\) conditional on observed data and current parameters.</p></div><div class="panel"><h3>02</h3><p>Optionally draw missing \(Y\) conditional on completed \(X\).</p></div><div class="panel"><h3>03</h3><p>Draw \(\theta,\phi\) conditional on completed data.</p></div></div><p class="small">Repeat. These steps represent a Gibbs-style scheme when the stated full conditionals are available.</p></section>
+<section><h2>The outcome informs missing predictors</h2><div class="eq">\[\boxed{p(x_i\mid y_i,\theta,\phi)\propto p(y_i\mid x_i,\theta)p(x_i\mid\phi)}\]</div><p>Imputing \(X\) while ignoring observed \(Y\) can distort regression inference.</p></section>
+<section><h2>Gaussian conditional imputation</h2><div class="eq">\[X_i\mid Y_i=y_i,\theta,\phi\sim N(m_i,v_i)\]</div><div class="eq">\[v_i=\left(\tau^{-2}+\beta^2/\sigma^2\right)^{-1}\]</div><div class="eq">\[m_i=v_i\left(\mu_x/\tau^2+\beta(y_i-\alpha)/\sigma^2\right)\]</div></section>
+<section><h2>Two modeling strategies</h2><div class="columns"><div class="panel"><h3>Joint model</h3><p>Specify \(p(Y,X\mid\eta)\) directly.</p><p class="small">Example: multivariate Gaussian.</p></div><div class="panel"><h3>Conditional factorization</h3><p>Specify \(p(Y\mid X,\theta)p(X\mid\phi)\).</p><p class="small">Example: logistic regression + Gaussian predictors.</p></div></div></section>
+<section><h2>Inference versus prediction</h2><p>For fully observed new predictors:</p><div class="eq">\[p(y_*\mid x_*,D)=\int p(y_*\mid x_*,\theta)p(\theta\mid D)\,d\theta\]</div><p>For missing new predictors:</p><div class="eq">\[p(y_*\mid D)=\iiint p(y_*\mid x_*,\theta)p(x_*\mid\phi)p(\theta,\phi\mid D)\,dx_*d\theta d\phi\]</div></section>
+<section><h2>What Bayesian modeling does <em>not</em> solve</h2><ul><li>MAR cannot generally be verified from observed data alone.</li><li>MNAR mechanisms can be nonidentified.</li><li>Priors do not create information absent from the likelihood.</li><li>Misspecifying \(p(X\mid\phi)\) can affect inference about \(\theta\).</li></ul></section>
+<section><h2>Takeaway</h2><p class="accent">When only outcomes are missing, a conditional regression model may suffice.</p><div class="rule"></div><p class="accent">When predictors are missing, the distribution of predictors becomes part of the inferential problem.</p><div class="eq">\[p(Y,X)=p(Y\mid X)p(X)\]</div></section>
+<section><div class="kicker">Discussion</div><h1>What is the inferential cost of treating \(X\) as fixed?</h1><p class="small">Especially when some of its values are unobserved.</p></section>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/math/math.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/notes/notes.js"></script>
+<script>Reveal.initialize({hash:true,slideNumber:'c/t',progress:true,controls:true,center:true,transition:'none',width:1280,height:720,margin:0.08,plugins:[RevealMath.MathJax3,RevealNotes],mathjax3:{tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}}});</script>
+</body></html>
